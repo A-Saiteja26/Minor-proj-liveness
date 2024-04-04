@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Capture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2; /* Fallback color if image is unavailable */
+            background-image: url('images/fbg.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        }
+
+        h1 {
+            color: #333; /* Dark gray text */
+        }
+
+        #video, #photo {
+            border: 2px solid #333; /* Dark gray border */
+            width: 320px;
+            height: 240px;
+            margin-bottom: 20px;
+        }
+
+        #startbutton {
+            background-color: #0f073f;
+            color: #fff; 
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+        #startbutton:hover {
+            background-color: #45a049; 
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Register Here</h1>
+        <video id="video" autoplay></video>
+        <button id="startbutton">Take Photo</button>
+        <br>
+        <img id="photo" alt="Captured Image">
+        <form id="submitForm" action="/register_request" method="post" style="display: none;">
+            <label for="name">Enter Name</label>
+            <input type="text" id="userData" name="userData">
+            <input type="hidden" id="photoData" name="photoData">
+            <button type="submit" >Submit Photo</button>
+        </form>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const photo = document.getElementById('photo');
+        const startbutton = document.getElementById('startbutton');
+        const submitForm = document.getElementById('submitForm');
+        const photoDataInput = document.getElementById('photoData');
+        const userDataInput=document.getElementById('userData');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                startbutton.addEventListener('click', capturePhoto);
+            })
+            .catch(error => {
+                console.error("Error accessing camera:", error);
+                // You can display an error message to the user here
+            });
+
+        function capturePhoto() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0);
+            photo.src = canvas.toDataURL('image/png'); // Change format as needed
+            // Set the captured image data to the hidden input field
+            photoDataInput.value = canvas.toDataURL('image/png');
+            // Show the submit button and the form
+            submitForm.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

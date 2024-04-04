@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Attendance Management System</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('images/fbg.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white; 
+    height: 100vh; 
+    overflow: hidden; 
+}
+
+    .container {
+        max-width: 600px;
+        margin: 100px auto 100px; 
+        text-align: center;
+    }
+    h1 {
+        color: white;
+    }
+    .buttons {
+        margin-top: 290px;
+        display: flex;
+        justify-content: center; 
+        }
+    .btn {
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #0f073f; 
+        color: white;
+        border: 2px solid #007bff; 
+        border-radius: 5px;
+        margin: 0 10px;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    }
+    .btn:hover {
+        background-color: #0056b3; 
+        border-color: #0056b3; 
+    }
+    .admin-login {
+    position: absolute;
+    bottom: 20px; 
+    left: 50%;
+    transform: translateX(-50%);
+}
+.btn-admin {
+    padding: 15px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #ff5722; 
+    color: white;
+    border: 2px solid #ff9800; 
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+.btn-admin:hover {
+    background-color: #f4511e; 
+    border-color: #f4511e; 
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Employee Attendance Management System</h1>
+    <div class="buttons">
+        <form method="get">
+        <button class="btn" formaction="/register" type="submit">Register</button>
+        <button class="btn" formaction="/recognize" type="submit">Recognize</button>
+    </form>
+    </div>
+    <div class="admin-login">
+        <form method="get">
+            <button class="btn-admin" formaction="/admin" type="submit">Admin Login</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

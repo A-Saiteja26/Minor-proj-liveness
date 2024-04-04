@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('images/fbg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Remove height property */
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 100%; /* Adjust maximum width to fit the viewport */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            width: 100px; /* Adjust image width as needed */
+        }
+        .btn {
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #0f073f; 
+        color: white;
+        border: 2px solid #007bff; 
+        border-radius: 5px;
+        margin: 0 10px;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    }
+    #accept:hover {
+        background-color: hsl(115, 68%, 42%); 
+        border-color: #0056b3; 
+    }
+    #reject:hover {
+        background-color: hsl(357, 78%, 42%); 
+        border-color: #0056b3; 
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Request Status</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% pendingRequests.forEach(request => { %>
+                    <tr>
+                        <td><%= request.name %></td>
+                        <td><%= request.request %></td>
+                        <td><img src="data:image/jpeg;base64,<%= request.image %>" alt="<%= request.name %> Image"></td>
+                        <td>
+                          <form method="post">
+                            <button id="accept" formaction="/accept" class="btn accept-btn">Accept</button>
+                            <input type="hidden" name="id" value="<%= request._id %>">
+
+                            <button id="reject" formaction="/reject" class="btn reject-btn">Reject</button>
+                          </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
