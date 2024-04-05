@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config()
 const path = require('path')
 const bodyParser = require('body-parser')
 const router = express.Router()
@@ -70,10 +71,9 @@ const AWS = require('aws-sdk');
 
 // Configure AWS SDK
 AWS.config.update({
-    accessKeyId: 'AKIATKWHAAVE4GIJNGHY',
-    secretAccessKey: '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'
-});
-
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey
+});       
 const s3 = new AWS.S3();
 const rp = require('request-promise');
 router.post('/sample', async (req, res) => {
@@ -99,7 +99,7 @@ router.post('/sample', async (req, res) => {
         console.error('Error:', error);
         res.status(500).send('Failed to retrieve and send image data');
     }
-});
+});                    
 
 router.get("/analytics", async (req,res)=>{
     const uname =req.query.uname;
