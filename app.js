@@ -16,14 +16,16 @@ app.use(cors({
     origin: "*"
 }));
 //initial start of project 
-app.get('/', (req, res) => {
+app.get('/myapp', (req, res) => {
     res.sendFile(path.join(__dirname, '/views/home.html'));
 })
 //route for employee actions
 const employeeRoutes = require('./routes/employeeRoutes.js')
-app.use('/employee', employeeRoutes);
+app.use('/myapp/employee', employeeRoutes);
 //route for admin actions
 const adminRoutes = require('./routes/adminRoutes.js')
-app.use('/admin', adminRoutes)
+const recogRoutes =  require('./routes/RecogRoutes.js')
+app.use('/myapp/admin', adminRoutes)
+app.use('/myapp/',recogRoutes)
 const port = process.env.PORT || 4005
 app.listen(port, () => console.log(`http://localhost:${port}`)) 
