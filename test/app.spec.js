@@ -1,63 +1,47 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
 const sinon = require('sinon');
-const jwt = require('jsonwebtoken');  // Assuming JWT for token generation
-
-const mockSecretKey = 'your_secret_key';  // Replace with your actual secret key
-
-const adminRoutes = require('../routes/adminRoutes');  // Assuming the actual path
-
-describe('Admin routes - JWT validation', () => {
-  let app;  // Store the Express application instance
-  let sandbox;  // Sandbox for Sinon mocks
+const { expect } = require('chai');
+const { deletePerson } = require('../controller/deletePersonController');
+const {searchFacesAndDelete} = require('../controller/deleteController')
+describe('deletePerson controller', () => {
+  let mockReq;
+  let mockRes;
 
   beforeEach(() => {
-    chai.use(chaiHttp);  // Integrate chai-http with chai
-    sandbox = sinon.createSandbox();  // Create a Sinon sandbox for mocking
-
-    // Mock JWT verification (replace with your actual logic)
-    sandbox.stub(jwt, 'verify').callsFake((token, secret) => {
-      if (token === 'valid_token' && secret === mockSecretKey) {
-        return { userId: 1 };  // Mock decoded data
-      }
-      throw new Error('Invalid token');
-    });
-
-    // Simulate your Express application (replace with your app setup)
-    app = {
-      use: sandbox.spy(),  // Spy on Express app methods for testing
+    mockReq = {}; // Set up your mock request object as needed
+    mockRes = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.spy()
     };
-
-    // Simulate importing the admin routes module
-    adminRoutes(app);  // Adjust path based on your project structure
   });
 
   afterEach(() => {
-    sandbox.restore();  // Restore mocks after each test
+    sinon.restore();
   });
 
-  it('should respond with success on valid JWT token', (done) => {
-    chai.request(app)
-      .post('admin/validatejwt')
-      .send({ token: 'valid_token' })  // Send request with a token
-      .expect(200)
-      .expect(response => {
-        chai.expect(response.body.success).to.be.true;
-        chai.expect(response.body.message).to.equal('jwt token verified');
-      })
-      .end(done);
+  it('should handle successful deletion', async () => {
+    // Stub searchFacesAndDelete function to resolve successfully
+    sinon.stub(searchFacesAndDelete).returns(Promise.resolve('Deleted successfully'));
+
+    await deletePerson(mockReq, mockRes);
+
+    // Assert that the response status is set to 200 and success message is sent
+    expect(mockRes.status).to.have.been.calledOnceWith(200);
+    expect(mockRes.json).to.have.been.calledOnceWith({ success: true, message: 'Deleted successfully' });
   });
 
-  it('should respond with 401 on invalid JWT token', (done) => {
-    chai.request(app)
-      .post('admin/validatejwt')
-      .send({ token: 'invalid_token' })  // Send request with an invalid token
-      .expect(401)
-      .expect(response => {
-        chai.expect(response.text).to.equal('Invalid Token');
-      })
-      .end(done);
-  });
+  it('should handle deletion failure', async () => {
+    const expectedError = new Error('Deletion failed');
 
-  // Add more test cases for edge cases (missing token, malformed token, etc.)
+    // Stub searchFacesAndDelete function to throw an error
+    sinon.stub(searchFacesAndDelete).rejects(expectedError);
+
+    await deletePerson(mockReq, mockRes);
+
+    // Assert that the response status is set to 500 and error message is sent
+    expect(mockRes.status).to.have.been.calledOnceWith(500);
+    expect(mockRes.json).to.have.been.calledOnceWith({ success: false, message: 'Internal server error' });
+
+    // Assert that the error is logged
+    expect(console.error).to.have.been.calledOnceWith('Error:', expectedError);
+  });
 });

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.68% </span>
+                <span class="strong">46.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/63</span>
+                <span class='fraction'>29/63</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.68% </span>
+                <span class="strong">46.03% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/63</span>
+                <span class='fraction'>29/63</span>
             </div>
         
             
@@ -176,10 +176,9 @@
 <a name='L111'></a><a href='#L111'>111</a>
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -197,14 +196,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,6 +242,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -279,6 +272,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -296,6 +290,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express')
+require('dotenv').config()
 const path = require('path')
 const bodyParser = require('body-parser')
 const router = express.Router()
@@ -304,6 +299,7 @@ const { searchFacesAndRetrieve } = require('../controller/recognitionController'
 const { indexFacesAndStore } = require('../controller/registerController');
 const {attendance} = require('../controller/attendanceView')
 const { registerNewUser } = require('../controller/requestController');
+const {deletePerson} = require('../controller/deletePersonController')
 router.get('/recognize', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >    res.sendFile(path.join(__dirname, '../views/employee/recognize.html'));</span>
 })
@@ -312,15 +308,7 @@ router.get('/register', <span class="fstat-no" title="function not covered" >(r<
 })              
 router.use(bodyParser.urlencoded({ limit: '2mb', extended: true }));
 router.use(bodyParser.json());
-router.post('/delete_person',<span class="fstat-no" title="function not covered" >as</span>ync(req,res)=&gt;{
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >        await searchFacesAndDelete(req, res);</span>
-    } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error('Error:', error);</span>
-<span class="cstat-no" title="statement not covered" >        res.status(500).json({ success: false, message: 'Internal server error' });</span>
-    }
-&nbsp;
-})
+router.post('/delete_person',deletePerson)
 router.post('/mark_attendance', <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
 &nbsp;
 &nbsp;
@@ -366,9 +354,11 @@ const AWS = require('aws-sdk');
 &nbsp;
 &nbsp;
 // Configure AWS SDK
+console.log(process.env.accessKeyId)
+console.log(process.env.secretAccessKey)
 AWS.config.update({
-    accessKeyId: 'AKIATKWHAAVE4GIJNGHY',
-    secretAccessKey: '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'
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey
 });
 &nbsp;
 const s3 = new AWS.S3();
@@ -398,6 +388,7 @@ router.post('/sample', <span class="fstat-no" title="function not covered" >as</
     }
 });
 &nbsp;
+&nbsp;
 router.get("/analytics", <span class="fstat-no" title="function not covered" >as</span>ync (req,res)=&gt;{
     const uname =<span class="cstat-no" title="statement not covered" >req.query.uname;</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -418,7 +409,7 @@ module.exports = router
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-04T14:14:01.195Z
+                at 2024-04-06T09:09:18.182Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
