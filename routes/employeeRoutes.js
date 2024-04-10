@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config()
 const path = require('path')
 const bodyParser = require('body-parser')
 const router = express.Router()
@@ -7,6 +8,7 @@ const { searchFacesAndRetrieve } = require('../controller/recognitionController'
 const { indexFacesAndStore } = require('../controller/registerController');
 const {attendance} = require('../controller/attendanceView')
 const { registerNewUser } = require('../controller/requestController');
+const {deletePerson} = require('../controller/deletePersonController')
 router.get('/recognize', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/employee/recognize.html'));
 })
@@ -15,15 +17,7 @@ router.get('/register', (req, res) => {
 })              
 router.use(bodyParser.urlencoded({ limit: '2mb', extended: true }));
 router.use(bodyParser.json());
-router.post('/delete_person',async(req,res)=>{
-    try {
-        await searchFacesAndDelete(req, res);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
-    }
-
-})
+router.post('/delete_person',deletePerson)
 router.post('/mark_attendance', async (req, res) => {
 
 
@@ -69,9 +63,11 @@ const AWS = require('aws-sdk');
 
 
 // Configure AWS SDK
+console.log(process.env.accessKeyId)
+console.log(process.env.secretAccessKey)
 AWS.config.update({
-    accessKeyId: 'AKIATKWHAAVE4GIJNGHY',
-    secretAccessKey: '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'
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey
 });
 
 const s3 = new AWS.S3();
@@ -100,6 +96,7 @@ router.post('/sample', async (req, res) => {
         res.status(500).send('Failed to retrieve and send image data');
     }
 });
+
 
 router.get("/analytics", async (req,res)=>{
     const uname =req.query.uname;
