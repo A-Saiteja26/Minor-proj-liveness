@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha --watch 'test/**/*.js' --timeout 7000",
-    "coverage": "nyc --all --reporter=text --reporter=html mocha --timeout 5000 --exit"
+
+    "coverage": "nyc --all --reporter=text --reporter=html mocha --timeout 7000 --exit"
   },
   "author": "A Sai Teja",
   "license": "ISC",
