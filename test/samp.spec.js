@@ -11,7 +11,7 @@ describe('createLiveSession', () => {
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
-        // Mocking AWS Rekognition service
+        
         // rekognitionMock = {
         //     createFaceLivenessSession: sinon.stub().returnsThis(),
         //     promise: sinon.stub().resolves({ SessionId: 'mockSessionId' })
@@ -36,8 +36,12 @@ describe('createLiveSession', () => {
         sandbox.stub(AWS, 'Rekognition').returns({
             createFaceLivenessSession: sandbox.stub().throws(error)
         });
+        try{
         const res= await createLiveSession();
-        expect(res).to.exist;
+        expect(res).to.exist;}
+        catch(err){
+            assert.fail(error)
+        }
     });
 });
 
@@ -69,7 +73,7 @@ describe('getLiveness', () => {
         sandbox.stub(AWS, 'Rekognition').returns({
             getFaceLivenessSessionResults: sandbox.stub().callsFake((params, callback) => {
                 const data = {
-                    Confidence: 80 // Confidence greater than 70
+                    Confidence: 80 
                 };
                 setTimeout(() => {
                     callback(null, data);
@@ -77,15 +81,14 @@ describe('getLiveness', () => {
             })
         });
         
-        // Stub rekognition.getFaceLivenessSessionResults to return mock data
         // //sandbox.stub(AWS.Rekognition, 'getFaceLivenessSessionResults').callsFake((params, callback) => {
         //     const data = {
-        //         Confidence: 80 // Confidence greater than 70
+        //         Confidence: 80 
         //     };
         //     callback(null, data);
         // });
         // const data = {
-        //             Confidence: 80 // Confidence greater than 70
+        //             Confidence: 80
         //         };
         //         sandbox.stub(rekognition, 'getFaceLivenessSessionResults').callsFake((params, callback) => {
         //             callback(new Error('Mock error'));

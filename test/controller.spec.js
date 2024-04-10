@@ -406,7 +406,7 @@ describe('pendingRequests', () => {
     let toArrayStub;
 
     beforeEach(() => {
-        // Stub MongoDB functions
+        
         toArrayStub = sinon.stub().resolves([]);
         findStub = sinon.stub().returns({
             toArray: toArrayStub
@@ -424,7 +424,7 @@ describe('pendingRequests', () => {
     });
 
     afterEach(() => {
-        // Restore original functions
+        
         sinon.restore();
     });
 
@@ -514,7 +514,6 @@ describe('searchFacesAndDelete', () => {
     let deleteFacesStub;
 
     beforeEach(() => {
-        // Stub MongoDB functions
         dbStub = {
             collection: sinon.stub().returns({
                 findOne: sinon.stub().resolves({ userId: 'userId123' }),
@@ -528,7 +527,7 @@ describe('searchFacesAndDelete', () => {
             
         });
 
-        // Stub AWS Rekognition functions
+        
         // detectFacesStub = sinon.stub().returns({
         //     promise: sinon.stub().resolves({ FaceDetails: [{confidence:90}] })
         // });
@@ -555,7 +554,6 @@ describe('searchFacesAndDelete', () => {
     });                
 
     afterEach(() => {
-        // Restore original functions
         sinon.restore();
     });
 
@@ -666,13 +664,18 @@ describe('searchFacesAndDelete', () => {
             json: sinon.stub()
         };
 
-        await searchFacesAndDelete(req, res);
-
-        expect(res.status.calledWith(500)).to.be.true;
-        expect(res.json.calledWith({
-            success: false,
-            message: 'Internal server error'
-        })).to.be.true;
+        try {
+            await searchFacesAndDelete(req, res);
+            
+            expect(res.status.calledWith(500)).to.be.true;
+            expect(res.json.calledWith({
+                success: false,
+                message: 'Internal server error'
+            })).to.be.true;
+        } catch (error) {
+            
+            assert.fail(error);
+        }
     });
 
     it('should handle errors during closing of database connection', async () => {
@@ -703,7 +706,7 @@ describe('searchFacesAndRetrieve', () => {
     let searchFacesByImageStub;
 
     beforeEach(() => {
-        // Stub MongoDB functions
+        
         
         // dbStub = {
         //     collection: sinon.stub().returns({
@@ -716,7 +719,7 @@ describe('searchFacesAndRetrieve', () => {
         //     close: sinon.stub().resolves(),
         // });
 
-        // Stub AWS Rekognition functions
+        
         // sinon.stub(rekognition, 'detectFaces').returns({
         //     promise: () => Promise.resolve({ FaceDetails: [{ confidence: 90 }] })
         // });
@@ -726,7 +729,7 @@ describe('searchFacesAndRetrieve', () => {
     });
 
     afterEach(() => {
-        // Restore original functions
+        
         sinon.restore();
     });
 
@@ -752,15 +755,15 @@ describe('searchFacesAndRetrieve', () => {
         const token = 'testToken';
         
         sinon.stub(axios, 'post').callsFake((url, data) => {
-            // Custom logic based on the URL or data
+            
             if (url === 'https://mobile1.qa.darwinbox.io/Mobileapi/auth') {
-                // Return a custom response for authentication
+                
                 return Promise.resolve({ status: 200, data: { token: 'your-token' } });
             } else if (url === 'https://mobile1.qa.darwinbox.io/Mobileapi/CheckInPost') {
-                // Return a custom response for check-in
+                
                 return Promise.resolve({ status: 200, data: { status: 1, token: 'your-token' } });
             } else {
-                // Return a default response for other URLs
+                
                 return Promise.resolve({ status: 200, data: {} });
             }
         });
@@ -882,14 +885,17 @@ describe('searchFacesAndRetrieve', () => {
             status: sinon.stub().returnsThis(),
             json: sinon.stub()
         };
-
+        try{
         await searchFacesAndRetrieve(req, res);
 
         expect(res.status.calledWith(404)).to.be.true;
         expect(res.json.calledWith({
             success: false,
             message: 'No faces detected in the provided image'
-        })).to.be.true;
+        })).to.be.true;}
+        catch(error){
+            assert.fail(error);
+        }
     });
 
     it('should handle invalid image data format', async () => {

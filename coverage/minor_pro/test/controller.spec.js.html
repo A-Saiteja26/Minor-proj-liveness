@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.47% </span>
+                <span class="strong">97.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>323/328</span>
+                <span class='fraction'>325/332</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.47% </span>
+                <span class="strong">97.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>322/327</span>
+                <span class='fraction'>324/331</span>
             </div>
         
             
@@ -1048,7 +1048,13 @@
 <a name='L983'></a><a href='#L983'>983</a>
 <a name='L984'></a><a href='#L984'>984</a>
 <a name='L985'></a><a href='#L985'>985</a>
-<a name='L986'></a><a href='#L986'>986</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L986'></a><a href='#L986'>986</a>
+<a name='L987'></a><a href='#L987'>987</a>
+<a name='L988'></a><a href='#L988'>988</a>
+<a name='L989'></a><a href='#L989'>989</a>
+<a name='L990'></a><a href='#L990'>990</a>
+<a name='L991'></a><a href='#L991'>991</a>
+<a name='L992'></a><a href='#L992'>992</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1564,7 +1570,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1605,7 +1610,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1717,11 +1721,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1932,13 +1941,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2441,7 +2453,7 @@ describe('pendingRequests', () =&gt; {
     let toArrayStub;
 &nbsp;
     beforeEach(() =&gt; {
-        // Stub MongoDB functions
+        
         toArrayStub = sinon.stub().resolves([]);
         findStub = sinon.stub().returns({
             toArray: toArrayStub
@@ -2459,7 +2471,7 @@ describe('pendingRequests', () =&gt; {
     });
 &nbsp;
     afterEach(() =&gt; {
-        // Restore original functions
+        
         sinon.restore();
     });
 &nbsp;
@@ -2549,7 +2561,6 @@ describe('searchFacesAndDelete', () =&gt; {
     let deleteFacesStub;
 &nbsp;
     beforeEach(() =&gt; {
-        // Stub MongoDB functions
         dbStub = {
             collection: sinon.stub().returns({
                 findOne: sinon.stub().resolves({ userId: 'userId123' }),
@@ -2563,7 +2574,7 @@ describe('searchFacesAndDelete', () =&gt; {
             
         });
 &nbsp;
-        // Stub AWS Rekognition functions
+        
         // detectFacesStub = sinon.stub().returns({
         //     promise: sinon.stub().resolves({ FaceDetails: [{confidence:90}] })
         // });
@@ -2590,7 +2601,6 @@ describe('searchFacesAndDelete', () =&gt; {
     });                
 &nbsp;
     afterEach(() =&gt; {
-        // Restore original functions
         sinon.restore();
     });
 &nbsp;
@@ -2701,13 +2711,18 @@ describe('searchFacesAndDelete', () =&gt; {
             json: sinon.stub()
         };
 &nbsp;
-        await searchFacesAndDelete(req, res);
-&nbsp;
-        expect(res.status.calledWith(500)).to.be.true;
-        expect(res.json.calledWith({
-            success: false,
-            message: 'Internal server error'
-        })).to.be.true;
+        try {
+            await searchFacesAndDelete(req, res);
+            
+            expect(res.status.calledWith(500)).to.be.true;
+            expect(res.json.calledWith({
+                success: false,
+                message: 'Internal server error'
+            })).to.be.true;
+        } catch (error) {
+            
+<span class="cstat-no" title="statement not covered" >            assert.fail(error);</span>
+        }
     });
 &nbsp;
     it('should handle errors during closing of database connection', async () =&gt; {
@@ -2738,7 +2753,7 @@ describe('searchFacesAndRetrieve', () =&gt; {
     let searchFacesByImageStub;
 &nbsp;
     beforeEach(() =&gt; {
-        // Stub MongoDB functions
+        
         
         // dbStub = {
         //     collection: sinon.stub().returns({
@@ -2751,7 +2766,7 @@ describe('searchFacesAndRetrieve', () =&gt; {
         //     close: sinon.stub().resolves(),
         // });
 &nbsp;
-        // Stub AWS Rekognition functions
+        
         // sinon.stub(rekognition, 'detectFaces').returns({
         //     promise: () =&gt; Promise.resolve({ FaceDetails: [{ confidence: 90 }] })
         // });
@@ -2761,7 +2776,7 @@ describe('searchFacesAndRetrieve', () =&gt; {
     });
 &nbsp;
     afterEach(() =&gt; {
-        // Restore original functions
+        
         sinon.restore();
     });
 &nbsp;
@@ -2787,15 +2802,15 @@ describe('searchFacesAndRetrieve', () =&gt; {
         const token = 'testToken';
         
         sinon.stub(axios, 'post').callsFake((url, data) =&gt; {
-            // Custom logic based on the URL or data
+            
             if (url === 'https://mobile1.qa.darwinbox.io/Mobileapi/auth') {
-                // Return a custom response for authentication
+                
                 return Promise.resolve({ status: 200, data: { token: 'your-token' } });
             } else <span class="missing-if-branch" title="else path not taken" >E</span>if (url === 'https://mobile1.qa.darwinbox.io/Mobileapi/CheckInPost') {
-                // Return a custom response for check-in
+                
                 return Promise.resolve({ status: 200, data: { status: 1, token: 'your-token' } });
             } else {
-                // Return a default response for other URLs
+                
 <span class="cstat-no" title="statement not covered" >                return Promise.resolve({ status: 200, data: {} });</span>
             }
         });
@@ -2917,14 +2932,17 @@ describe('searchFacesAndRetrieve', () =&gt; {
             status: sinon.stub().returnsThis(),
             json: sinon.stub()
         };
-&nbsp;
+        try{
         await searchFacesAndRetrieve(req, res);
 &nbsp;
         expect(res.status.calledWith(404)).to.be.true;
         expect(res.json.calledWith({
             success: false,
             message: 'No faces detected in the provided image'
-        })).to.be.true;
+        })).to.be.true;}
+        catch(error){
+<span class="cstat-no" title="statement not covered" >            assert.fail(error);</span>
+        }
     });
 &nbsp;
     it('should handle invalid image data format', async () =&gt; {
@@ -3025,7 +3043,7 @@ describe('searchFacesAndRetrieve', () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-06T09:09:18.182Z
+                at 2024-04-10T02:15:50.734Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
