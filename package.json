@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "This face recognition based employee allowance system",
   "scripts": {
-<<<<<<< HEAD
+
     "start": "node app.js",
     "test": "mocha --watch 'test/app.spec.js'",
-=======
+
     "test": "mocha --watch 'test/**/*.js' --timeout 7000",
->>>>>>> 8414c485b3916c099ad9819e39b8a1e0809690d3
+
     "coverage": "nyc --all --reporter=text --reporter=html mocha --timeout 5000 --exit"
   },
   "author": "A Sai Teja",
