@@ -5,8 +5,6 @@
   "scripts": {
 
     "start": "node app.js",
-    "test": "mocha --watch 'test/app.spec.js'",
-
     "test": "mocha --watch 'test/**/*.js' --timeout 7000",
 
     "coverage": "nyc --all --reporter=text --reporter=html mocha --timeout 5000 --exit"
