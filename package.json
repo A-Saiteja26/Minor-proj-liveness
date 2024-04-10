@@ -2,9 +2,9 @@
   "name": "minor_pro",
   "version": "1.0.0",
   "description": "This face recognition based employee allowance system",
-  "main": "index.js",
   "scripts": {
-    "test": "mocha --watch 'test/samp.spec.js'",
+    "start":"node app.js",
+    "test": "mocha --watch 'test/**/*.js' --timeout 7000",
     "coverage": "nyc --all --reporter=text --reporter=html mocha --timeout 5000 --exit"
   },
   "author": "A Sai Teja",
