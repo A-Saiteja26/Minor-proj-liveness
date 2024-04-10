@@ -4,7 +4,7 @@
   "description": "This face recognition based employee allowance system",
   "main": "index.js",
   "scripts": {
-    
+    "start": "node app.js",
     "test": "mocha --watch 'test/app.spec.js'",
     "coverage": "nyc --all --reporter=text --reporter=html mocha --timeout 5000 --exit"
   },
