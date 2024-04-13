@@ -6,12 +6,12 @@ async function pendingRequests(req, res) {
 
         client = await mongoClient.connect();
         const db = client.db('facerecognition');
-        const pendingRequests = await db.collection('reg_req').find({ request: 'pending' }).toArray();
+        const pendingRequests = await db.collection('reg_req').find({ request: 'pendings' }).toArray();
 
         if (pendingRequests.length > 0) {
             res.status(200).json({ success: true, message: 'There are pending requests.', pendingRequests });
         } else {
-            res.status(404).json({ success: false, message: 'No pending requests found.' });
+            res.status(202).json({ success: false, message: 'No pending requests found.' });
         }
     } catch (error) {
         console.error('Error:', error);

@@ -18,11 +18,25 @@ async function indexFacesAndStore(id) {
       const imageUrl = request.imageUrl;
 
       const s3Params = {
-          Bucket: 'faces-samp',
+          Bucket: 'faces-samp-new',
           Key: imageUrl.split('/').slice(-2).join('/')
       };
       const imageData = await s3.getObject(s3Params).promise();
-
+      const collectionparams = {
+        CollectionId: 'samp_collection'
+      };
+      rekognition.describeCollection(collectionparams, function(err, data) {
+        if (err && err.code === 'ResourceNotFoundException') {
+          // Collection does not exist, create it
+          rekognition.createCollection(collectionparams, function(err, data) {
+            if (err) {
+              console.log("Error creating collection:", err);
+            } else {
+              console.log("Collection created successfully:", data.CollectionArn);
+            }
+          });}
+        });
+        
       const indexParams = {
           CollectionId: collectionId,
           Image: { Bytes: imageData.Body } 

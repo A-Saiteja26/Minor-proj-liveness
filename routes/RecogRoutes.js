@@ -64,6 +64,7 @@ router.get('/api/get',getLiveness)
 router.get('/api/', async (req, res) => {
     try {
         const sessionId = await createLiveSession();
+        console.log(sessionId);
         res.json({sessionId});
     } catch (error) {
         console.error('Error creating live session:', error);

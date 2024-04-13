@@ -25,13 +25,13 @@ async function registerNewUser(userData, photoData) {
     
     const newUser = {
       name: userData,
-      request: 'pending'
+      request: 'pendings'
     };
     const result = await db.collection('reg_req').insertOne(newUser);
 
     
     const s3Params = {
-      Bucket: 'faces-samp', 
+      Bucket: 'faces-samp-new', 
       Key: `detected_faces/${result.insertedId}.jpg`, 
       Body: imageBuffer,
       ContentType: 'image/png',

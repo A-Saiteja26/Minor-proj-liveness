@@ -57,14 +57,15 @@ router.post('/register_request', async (req, res) => {
 
 router.post('/session',async(req,res)=>{
     console.log(req.body.sessionId)
+    res.status(200).send("hello");
 
 })
 const AWS = require('aws-sdk');
 
 
 // Configure AWS SDK
-console.log(process.env.accessKeyId)
-console.log(process.env.secretAccessKey)
+//console.log(process.env.accessKeyId)
+//console.log(process.env.secretAccessKey)
 AWS.config.update({
     accessKeyId: process.env.accessKeyId,
     secretAccessKey: process.env.secretAccessKey
@@ -79,7 +80,7 @@ router.post('/sample', async (req, res) => {
         const imageKey = `${sessionId}/reference.jpg`; 
 
         const params = {
-            Bucket: "faces-samp-1",
+            Bucket: "faces-samp-1-new",
             Key: imageKey
         };
 
